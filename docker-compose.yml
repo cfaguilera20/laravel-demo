@@ -53,6 +53,6 @@ services:
             - microservice_demo_database
         environment:
             - PMA_HOSTS=microservice_demo_database
-            - PMA_PORTS=6666
+            - PMA_PORTS=3306
         ports:
             - "8000:80"

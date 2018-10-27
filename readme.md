@@ -45,6 +45,7 @@ docker-compose exec microservice_demo_fpm  phpunit
 * [Laravel](https://laravel.com/docs/5.7) - The web framework used
 * [Composer](https://getcomposer.org/) - Dependency Management
 * [Fractal](https://github.com/spatie/laravel-fractal) - Fractal wrapper built for Laravel
+* [Entrust](https://github.com/Zizaco/entrust) - Succinct and flexible way to add Role-based Permissions.
 
 ## Authors
 
