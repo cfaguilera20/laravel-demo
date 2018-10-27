@@ -1,0 +1,58 @@
+version: "3.1"
+
+volumes:
+  mysql_data:
+
+##
+# Services
+##
+services:
+    ##
+    # Demo Microservices: fpm, nginx, database, phpmyadmin
+    ##
+    microservice_demo_fpm:
+        container_name: demo-fpm
+        build: ./docker/services/demo/php/
+        working_dir: /usr/src/app
+        volumes:
+           - ./:/usr/src/app
+        expose:
+            - 9000
+    
+    microservice_demo_nginx:
+        container_name: demo-nginx
+        build: ./docker/services/demo/nginx/
+        volumes:
+           - ./:/usr/src/app
+        links:
+            - microservice_demo_fpm
+        depends_on: 
+            - microservice_demo_fpm
+        ports:
+            - 8080:80
+
+    microservice_demo_database:
+        container_name: demo-database
+        build: ./docker/services/demo/database/
+        working_dir: /usr/src
+        volumes:
+            - .:/usr/src
+            - ./data/mysql_data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=homestead
+            - MYSQL_DATABASE=homestead
+            - MYSQL_USER=homestead
+            - MYSQL_PASSWORD=secret
+        ports:
+            - "6666:3306"
+
+    microservice_demo_phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: demo-phpmyadmin
+        depends_on:
+            - microservice_demo_database
+        environment:
+            - PMA_HOSTS=microservice_demo_database
+            - PMA_PORTS=6666
+        ports:
+            - "8000:80"
