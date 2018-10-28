@@ -6,3 +6,5 @@
    php artisan db:seed
    php artisan make:controller API/BookController --api
    php artisan make:controller API/AuthorController --api
+   php artisan make:test BooksControllerTest
+   php artisan make:test AuthorsControllerTest

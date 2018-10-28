@@ -38,6 +38,7 @@ services:
         volumes:
             - .:/usr/src
             - ./data/mysql_data:/var/lib/mysql
+            - ./docker/services/demo/database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
         environment:
             - MYSQL_ROOT_PASSWORD=homestead
             - MYSQL_DATABASE=homestead
