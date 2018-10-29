@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BooksControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /** @test **/
     public function index_status_code_should_be_200()
@@ -26,7 +26,7 @@ class BooksControllerTest extends TestCase
         $this->assertArrayHasKey('data', $content);
         $this->assertArrayHasKey('links', $content);
         $this->assertArrayHasKey('self', $content['links']);
-        $this->assertEquals(route('book.index'), $content['self']);
+        $this->assertEquals(route('book.index'), $content['links']['self']);
         
         foreach ($books as $book) {
             $response->assertJsonFragment(

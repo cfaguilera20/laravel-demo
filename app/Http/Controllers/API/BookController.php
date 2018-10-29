@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Book;
+use App\Transformers\BookTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +14,23 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $transformer = new BookTransformer();
+        $books = Book::with($transformer->getEagerLoads($request))->get();
+        $data = fractal()
+        ->collection($books)
+        ->transformWith($transformer)
+        ->withResourceName('books')
+        ->toArray();
+
+        // Set link
+        $data['links']['self'] = route('book.index');
+
+        // Response
+        return response()->json($data, 200, [
+            'Content-Type' => 'application/vnd.api+json'
+        ], JSON_NUMERIC_CHECK);
     }
 
     /**

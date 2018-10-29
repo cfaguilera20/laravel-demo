@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Author;
+use App\Transformers\AuthorTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +14,23 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $transformer = new AuthorTransformer();
+        $authors = Author::with($transformer->getEagerLoads($request))->get();
+        $data = fractal()
+        ->collection($authors)
+        ->transformWith($transformer)
+        ->withResourceName('authors')
+        ->toArray();
+
+        // Set link
+        $data['links']['self'] = route('author.index');
+
+        // Response
+        return response()->json($data, 200, [
+            'Content-Type' => 'application/vnd.api+json'
+        ], JSON_NUMERIC_CHECK);
     }
 
     /**
