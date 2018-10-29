@@ -37,8 +37,8 @@ class BooksControllerTest extends TestCase
                         'author_id' => $book->author_id,
                         'title' => $book->title,
                         'description' => $book->description,
-                        'created_at' => $book->created_at->format('Y-m-d H:i:s'),
-                        'updated_at' => $book->updated_at->format('Y-m-d H:i:s'),
+                        'created_at' => $book->created_at->toIso8601String(),
+                        'updated_at' => $book->updated_at->toIso8601String(),
                     ]
                 ]
             );
