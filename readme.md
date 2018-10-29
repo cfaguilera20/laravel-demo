@@ -46,6 +46,7 @@ docker-compose exec microservice_demo_fpm  phpunit
 * [Composer](https://getcomposer.org/) - Dependency Management
 * [Fractal](https://github.com/spatie/laravel-fractal) - Fractal wrapper built for Laravel
 * [Entrust](https://github.com/Zizaco/entrust) - Succinct and flexible way to add Role-based Permissions.
+* [phpunit-watcher](https://github.com/spatie/phpunit-watcher) - Automatically rerun PHPUnit tests when source code changes.
 
 ## Authors
 

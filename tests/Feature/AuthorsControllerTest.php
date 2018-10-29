@@ -8,15 +8,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthorsControllerTest extends TestCase
 {
-    use RefreshDatabase; // Uses a @before PHPUnit annotation to migrate the database automatically.
+    use RefreshDatabase;
     
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test **/
+    public function index_status_code_should_be_200()
     {
-        $this->assertTrue(true);
+        $response = $this->get('/api/authors')->assertStatus(200);
     }
 }
