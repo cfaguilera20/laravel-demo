@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthorsControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test **/
     public function index_status_code_should_be_200()
     {

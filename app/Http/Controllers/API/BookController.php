@@ -34,25 +34,32 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        try {
+            $transformer = new BookTransformer();
+            $book = Book::with($transformer->getEagerLoads($request))->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $this->abort($status = 404, 'Book not found');
+        }
+        $data = fractal()
+        ->item($book)
+        ->transformWith($transformer)
+        ->withResourceName('books')
+        ->toArray();
+        
+        // Set link
+        $data['links']['self'] = route('book.show', ['book' => $id]);
+
+        // Response
+        return response()->json($data, 200, [
+            'Content-Type' => 'application/vnd.api+json'
+        ], JSON_NUMERIC_CHECK);
     }
 
     /**

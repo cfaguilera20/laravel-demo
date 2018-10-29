@@ -49,12 +49,12 @@ abstract class TestCase extends BaseTestCase
      * @param int $count
      * @return mixed
      */
-    protected function bookFactory($count = 1)
+    protected function bookFactory($count = null)
     {
         $author = factory(\App\Author::class)->create();
         $books = factory(\App\Book::class, $count)->make();
 
-        if ($count === 1) {
+        if ($count === null) {
             $books->author()->associate($author);
             $books->save();
         } else {
@@ -65,27 +65,5 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $books;
-    }
-
-    /**
-     * Convenience method for creating a book bundle
-     *
-     * @param int $count
-     * @return mixed
-     */
-    protected function bundleFactory($bookCount = 2)
-    {
-        if ($bookCount <= 1) {
-            throw new \RuntimeException('A bundle must have two or more books!');
-        }
-
-        $bundle = factory(\App\Bundle::class)->create();
-        $books = $this->bookFactory($bookCount);
-
-        $books->each(function ($book) use ($bundle) {
-            $bundle->books()->attach($book);
-        });
-
-        return $bundle;
     }
 }
